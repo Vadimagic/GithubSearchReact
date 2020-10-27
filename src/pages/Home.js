@@ -20,7 +20,7 @@ export const Home = () => {
 					? <Loader />
 					: users.map( user => (
 							<div className="col-sm-4 mb-4" key={user.id}>
-								<Card avatarUrl={user.avatar_url} nodeId={user.node_id} login={user.login}/>
+								<Card user={user}/>
 							</div>
 						))
 				}
