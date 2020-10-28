@@ -17,12 +17,11 @@ export const Home = () => {
 				&& <InfiniteScroll
 						dataLength={users.length}
 						next={() => scrollPage(search)}
-						hasMore={true}
+						hasMore={end}
 						loader={<Loader />}
 						scrollThreshold="200px"
 						style={{overflow: 'hidden'}}
 						// eslint-disable-next-line
-						hasMore={end}
 					>
 						<div className="row">
 							{users.map( user => (

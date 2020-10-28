@@ -11,6 +11,8 @@ const withCreds = url => {
 	return `${url}client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}`
 }
 
+const pages = 30;
+
 export const GithubState = ({children}) => {
 	const initialState = {
 		search: '',
@@ -19,7 +21,7 @@ export const GithubState = ({children}) => {
 		loading: false,
 		repos: [],
 		scrollPage: 2,
-		end: false
+		end: true
 	}
 
 	const [state, dispatch] = useReducer(githubReducer, initialState)
@@ -28,23 +30,30 @@ export const GithubState = ({children}) => {
 		setLoading()
 
 		const response = await axios.get(
-			withCreds(`https://api.github.com/search/users?q=${value}&per_page=30&`)
+			withCreds(`https://api.github.com/search/users?q=${value}&per_page=${pages}&`)
 		)
+
 		dispatch({
 			type: SEARCH_USERS,
 			payload: response.data.items,
 			search: value
 		})
+
+		if (response.data.items.length < pages) {
+			dispatch({
+				type: SCROLL_END
+			})
+		}
 	}
 
 	const scrollPage = async value => {
 		setLoading()
 
 		const response = await axios.get(
-			withCreds(`https://api.github.com/search/users?q=${value}&per_page=30&page=${state["scrollPage"]}&`)
+			withCreds(`https://api.github.com/search/users?q=${value}&per_page=${pages}&page=${state["scrollPage"]}&`)
 		)
 
-		if (!response.data.items[0]) {
+		if (response.data.items.length === 0) {
 			dispatch({
 				type: SCROLL_END
 			})
