@@ -13,6 +13,7 @@ const withCreds = url => {
 
 export const GithubState = ({children}) => {
 	const initialState = {
+		search: '',
 		user: {},
 		users: [],
 		loading: false,
@@ -22,7 +23,7 @@ export const GithubState = ({children}) => {
 
 	const [state, dispatch] = useReducer(githubReducer, initialState)
 
-	const search = async value => {
+	const searchName = async value => {
 		setLoading()
 
 		const response = await axios.get(
@@ -30,7 +31,8 @@ export const GithubState = ({children}) => {
 		)
 		dispatch({
 			type: SEARCH_USERS,
-			payload: response.data.items
+			payload: response.data.items,
+			search: value
 		})
 	}
 
@@ -40,7 +42,7 @@ export const GithubState = ({children}) => {
 		console.log(state)
 
 		const response = await axios.get(
-			withCreds(`https://api.github.com/search/users?q=${'vadim'}&per_page=30&page=${state["scrollPage"]}&`)
+			withCreds(`https://api.github.com/search/users?q=${state.search}&per_page=30&page=${state["scrollPage"]}&`)
 		)
 
 		let users = [...state.users, ...response.data.items]
@@ -90,12 +92,12 @@ export const GithubState = ({children}) => {
 
 	const offLoading = () => dispatch({type: OFF_LOADING})
 
-	const {user, users, repos, loading} = state
+	const {user, users, repos, loading, search} = state
 
 	return (
 		<GithubContext.Provider value={{
-			search, getUser, getRepos, clearUsers, setLoading, offLoading,	scrollPage,
-			user, users, repos, loading
+			searchName, getUser, getRepos, clearUsers, setLoading, offLoading,	scrollPage,
+			user, users, repos, loading, search
 		}}>
 			{children}
 		</GithubContext.Provider>

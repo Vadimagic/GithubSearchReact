@@ -6,7 +6,7 @@ import { GithubContext } from "../context/github/githubContext"
 import InfiniteScroll from "react-infinite-scroll-component"
 
 export const Home = () => {
-	const {loading, users, scrollPage} = useContext(GithubContext)
+	const {loading, users, scrollPage, search} = useContext(GithubContext)
 
 	return (
 		<>
@@ -16,10 +16,11 @@ export const Home = () => {
 				(users[0] || loading)
 				&& <InfiniteScroll
 						dataLength={users.length}
-						next={scrollPage}
+						next={() => scrollPage(search)}
 						hasMore={true}
 						loader={<Loader />}
-						scrollThreshold	= "50px"
+						scrollThreshold="50px"
+						style={{overflow: 'hidden'}}
 					>
 						<div className="row">
 							{users.map( user => (
