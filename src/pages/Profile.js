@@ -18,6 +18,8 @@ export const Profile = ({match}) => {
 		name, company, avatar_url, location, bio, blog, login, html_url, followers, following, public_repos, public_gists
 	} =  user
 
+	console.log('user', user)
+	console.log('repos', repos)
 	return (
 		loading
 		? <Loader/>
@@ -38,7 +40,7 @@ export const Profile = ({match}) => {
 									<p>{bio}</p>
 								</>
 							}
-							<a href={html_url} target="_blank" rel="noreferrer" className="btn btn-dark mb-3">Открыть профиль</a>
+							<a href={html_url} target="_blank" rel="noopener noreferrer" className="btn btn-primary mb-3">Открыть профиль</a>
 							<ul className="list-group mb-2">
 								{login && <li className="list-group-item d-flex justify-content-between align-items-center">
 									<strong>Username: </strong>{login}

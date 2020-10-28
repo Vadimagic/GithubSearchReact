@@ -21,6 +21,11 @@ export const Search = () => {
 		}
 	}
 
+	if (github.error) {
+		show('Произошла ошибка')
+		github.clearUsers()
+	}
+
 	return (
 		<div className="form-group">
 			<input 
