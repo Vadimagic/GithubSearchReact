@@ -1,10 +1,11 @@
 import { useContext, useEffect } from "react"
 import { Link } from "react-router-dom"
 import Loader from "../components/Loader"
+import { Repos } from "../components/Repos"
 import { GithubContext } from "../context/github/githubContext"
 
 export const Profile = ({match}) => {
-	const {getUser, getRepos, loading, user /*repos*/} = useContext(GithubContext)
+	const {getUser, getRepos, loading, user, repos} = useContext(GithubContext)
 	const urlName = match.params.name
 
 	useEffect(() => {
@@ -26,7 +27,7 @@ export const Profile = ({match}) => {
 				<div className="card-body">
 					<div className="row">
 						<div className="col-sm-3 text-center">
-							<img src={avatar_url} alt={name} style={{width: '100%'}}/>
+							<img src={avatar_url} alt={name} style={{width: '100%'}} className="badge-pill"/>
 							<h1>{name}</h1>
 							{location && <p>Местоположение: {location}</p>}
 						</div>
@@ -37,30 +38,39 @@ export const Profile = ({match}) => {
 									<p>{bio}</p>
 								</>
 							}
-							<a href={html_url} target="_blank" rel="noreferrer" className="btn btn-dark">Открыть профиль</a>
-							<ul>
-								{login && <li>
+							<a href={html_url} target="_blank" rel="noreferrer" className="btn btn-dark mb-3">Открыть профиль</a>
+							<ul className="list-group mb-2">
+								{login && <li className="list-group-item d-flex justify-content-between align-items-center">
 									<strong>Username: </strong>{login}
 								</li>}
-							</ul>
-							<ul>
-								{company && <li>
+								{company && <li className="list-group-item d-flex justify-content-between align-items-center">
 									<strong>Company: </strong>{company}
 								</li>}
-							</ul>
-							<ul>
-								{blog && <li>
-									<strong>Website: </strong>{blog}
+								{blog && <li className="list-group-item d-flex justify-content-between align-items-center">
+									<strong>Website: </strong>
+									<a href={blog} target="_blank" rel="noreferrer">{blog}</a>
 								</li>}
 							</ul>
-							<div className="badge badge-primary">Подписчики: {followers}</div>
-							<div className="badge badge-success">Подписан: {following}</div>
-							<div className="badge badge-info">Репозитории: {public_repos}</div>
-							<div className="badge badge-dark">Gists: {public_gists}</div>
+							<ul className="list-group">
+								<li className="list-group-item d-flex justify-content-between align-items-center">
+									Подписчики: <span className="badge badge-primary badge-pill">{followers}</span>
+								</li>
+								<li className="list-group-item d-flex justify-content-between align-items-center">
+									Подписан: <span className="badge badge-primary badge-pill">{following}</span>
+								</li>
+								<li className="list-group-item d-flex justify-content-between align-items-center">
+									Репозитории: <span className="badge badge-primary badge-pill">{public_repos}</span>
+								</li>
+								<li className="list-group-item d-flex justify-content-between align-items-center">
+									Gists: <span className="badge badge-primary badge-pill">{public_gists}</span>
+								</li>
+							</ul>
 						</div>
 					</div>
 				</div>
 			</div>
+
+			<Repos repos={repos}/>
 		</>
 	)
 }
