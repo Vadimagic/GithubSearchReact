@@ -1,4 +1,4 @@
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 import { Alert } from './components/Alert';
 import { Navbar } from "./components/Navbar";
 import { AlertState } from './context/alert/alertState';
@@ -19,6 +19,7 @@ function App() {
 							<Route path="/" exact component={Home}/>
 							<Route path="/about" component={About}/>
 							<Route path="/profile/:name" component={Profile}/>
+							<Redirect to="/"/>
 						</Switch>
 					</div>
 				</BrowserRouter>

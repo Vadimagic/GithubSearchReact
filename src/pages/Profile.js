@@ -17,9 +17,6 @@ export const Profile = ({match}) => {
 	const {
 		name, company, avatar_url, location, bio, blog, login, html_url, followers, following, public_repos, public_gists
 	} =  user
-
-	console.log('user', user)
-	console.log('repos', repos)
 	return (
 		loading
 		? <Loader/>
